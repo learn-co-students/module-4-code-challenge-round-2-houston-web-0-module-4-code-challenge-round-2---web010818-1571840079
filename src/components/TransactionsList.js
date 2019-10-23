@@ -1,6 +1,15 @@
 import React from 'react'
+//import {Transaction} from './Transaction'
+
 
 const TransactionsList = () => {
+  // {transactions.map(transaction => {
+  //   return (
+  //   <div>
+  //     <Transaction key={transaction.id} transaction={transaction}/>
+  //     </div>
+  //   )
+  // })}
 
   return (
     <table className="ui celled striped padded table">
