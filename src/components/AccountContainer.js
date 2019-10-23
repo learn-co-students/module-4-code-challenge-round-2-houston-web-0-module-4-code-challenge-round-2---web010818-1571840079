@@ -6,41 +6,53 @@ import Search from './Search'
 
 class AccountContainer extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      query: '',
-      data: [],
-    }
-  }
-    // get a default state working with the data imported from TransactionsData
-    // use this to get the functionality working
-    // then replace the default transactions with a call to the API
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     query: '',
+  //     data: [],
+  //   }
+  // }
 
-  handleChange(event) {
+  state = {
+    query: '',
+    data: [],
+  }
+
+  // get a default state working with the data imported from TransactionsData
+  // use this to get the functionality working
+  // then replace the default transactions with a call to the API
+
+  handleChange = (whateverTheUserTypedIn) => {
     this.setState({
-      query: this.search.value
-  })
-}
+      query: whateverTheUserTypedIn
+    })
+  }
 
   componentDidMount() {
-      fetch(`https://boiling-brook-94902.herokuapp.com/transactions`)
+    fetch(`https://boiling-brook-94902.herokuapp.com/transactions`)
       .then(response => response.json())
       .then(responseData => {
-          console.log(responseData)
-          this.setState({
-              data:responseData
-          })
+        console.log(responseData)
+        this.setState({
+          data: responseData
+        })
       })
+  }
 
   render() {
+    let results = this.state.data.filter(transaction => transaction.description.startsWith(this.state.query))
+
+
     return (
       <div>
-        <Search />
-        <TransactionsList/>
-        </div>
-      )
-    }
+        <Search searchBar={this.handleChange} />
+        <TransactionsList transactions={results} />
+      </div>
+    )
   }
+}
+
+
 
 export default AccountContainer
