@@ -5,8 +5,11 @@ import {transactions} from '../transactionsData'
 
 class AccountContainer extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    this.state = {
+      transactions: []
+    };
 
     // get a default state working with the data imported from TransactionsData
     // use this to get the functionality working
@@ -14,16 +17,32 @@ class AccountContainer extends Component {
 
   }
 
+
+
+  componentDidMount(){
+    fetch('https://boiling-brook-94902.herokuapp.com/transactions')
+    .then(response => response.json())
+    .then(transactions => this.setState({
+      transactions: transactions,
+    }))
+  }
+
   handleChange(event) {
-    // your code here
+    
+  }
+
+  setSearchTerm = (searchTerm) => {
+    this.setState({
+      searchTerm: searchTerm,
+    })
   }
 
   render() {
-
+const searchTransactions = this.state.transactions.filter(transaction => transaction.description.includes(this.state.searchTerm))
     return (
       <div>
         <Search />
-        <TransactionsList />
+        <TransactionsList transactions={transactions}/>
       </div>
     )
   }
